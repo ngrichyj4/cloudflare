@@ -2,12 +2,14 @@
 RSpec.xdescribe Cloudflare::CustomHostnames, order: :defined, timeout: 30 do
 	include_context Cloudflare::Zone
 
-	let(:domain) { "www-#{job_id}.example.com" }
+	let(:domain) { "www#{ENV['TRAVIS_JOB_ID'] || rand(1..5)}.ourtest.com" }
 
 	let(:record) { @record = zone.custom_hostnames.create(domain) }
 
 	let(:custom_origin) do
-		subdomain = "origin-#{job_id}"
+		id = rand(1...100)
+		id += (job_id * 100) if job_id.positive?
+		subdomain = "origin-#{id}"
 		@dns_record = zone.dns_records.create("A", subdomain, "1.2.3.4") # This needs to exist or the calls will fail
 		"#{subdomain}.#{zone.name}"
 	end

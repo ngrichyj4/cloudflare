@@ -4,7 +4,7 @@ require 'cloudflare/rspec/connection'
 RSpec.describe Cloudflare::DNS, order: :defined, timeout: 30 do
 	include_context Cloudflare::Zone
 	
-	let(:subdomain) {"www-#{job_id}"}
+	let(:subdomain) {"www#{ENV['TRAVIS_JOB_ID']}"}
 	
 	after do
 		if defined? @record
