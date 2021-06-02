@@ -27,6 +27,7 @@ require_relative 'paginate'
 
 require_relative 'custom_hostnames'
 require_relative 'firewall'
+require_relative 'page_rules'
 require_relative 'dns'
 require_relative 'logs'
 
@@ -43,6 +44,10 @@ module Cloudflare
 		def firewall_rules
 			self.with(Firewall::Rules, path: 'firewall/access_rules/rules')
 		end
+
+  def page_rules
+   self.with(Page::Rules, path: 'pagerules')
+  end
 		
 		def logs
 			self.with(Logs::Received, path: 'logs/received')
